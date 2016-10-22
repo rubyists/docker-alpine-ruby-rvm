@@ -24,5 +24,6 @@ RUN chmod +x ~/ruby_setup.sh
 
 #RUN echo "source /etc/profile.d/rvm.sh" >> ~/.bashrc
 RUN sed -i '5i source /etc/profile.d/rvm.sh\n' ~/.bashrc
+RUN source /etc/profile.d/rvm.sh
 
 CMD /bin/bash -l
