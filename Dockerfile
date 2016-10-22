@@ -23,6 +23,8 @@ RUN echo "#!/bin/bash \nsource /etc/profile.d/rvm.sh \nrvm install \$(cat .ruby-
 RUN chmod +x ~/ruby_setup.sh
 
 RUN sed -i '5i source /etc/profile.d/rvm.sh\n' ~/.bashrc
-ENV PATH "$PATH:/usr/local/rvm/bin"
+RUN sed -i '2i . /etc/profile.d/rvm.sh\n' ~/.profile
+#ENV PATH "$PATH:/usr/local/rvm/bin"
 
-CMD /bin/bash -l
+#ENTRYPOINT /bin/bash -l
+CMD /bin/bash -l 
