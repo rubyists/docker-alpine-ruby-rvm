@@ -22,8 +22,7 @@ RUN /bin/bash -l -c 'gem install bundler --no-ri --no-rdoc'
 RUN echo "#!/bin/bash \nsource /etc/profile.d/rvm.sh \nrvm install \$(cat .ruby-version) \nrvm use --create \$(cat .ruby-version)@\$(cat .ruby-gemset) \ngem install bundler --no-ri --no-rdoc" > ~/ruby_setup.sh
 RUN chmod +x ~/ruby_setup.sh
 
-#RUN echo "source /etc/profile.d/rvm.sh" >> ~/.bashrc
 RUN sed -i '5i source /etc/profile.d/rvm.sh\n' ~/.bashrc
-RUN source /etc/profile.d/rvm.sh
+ENV PATH "$PATH:/usr/local/rvm/bin"
 
 CMD /bin/bash -l
