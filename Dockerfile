@@ -19,7 +19,7 @@ ENV PREINSTALLED_RUBIES "2.3.1 2.3.0 2.2.2 2.2.1 2.1.2"
 RUN /bin/bash -l -c 'for version in $PREINSTALLED_RUBIES; do echo "Now installing Ruby $version"; rvm install $version; done'
 
 # create ruby_setup script
-RUN echo "#!/bin/bash \nsource ~/.rvm/scripts/rvm || source /etc/profile.d/rvm.sh \nrvm install \$(cat .ruby-version) \nrvm use --create \$(cat .ruby-version)@\$(cat .ruby-gemset) \ngem install bundler --no-ri --no-rdoc" > ~/ruby_setup.sh
+RUN echo "#!/bin/bash \nrvm install \$(cat .ruby-version) \nrvm use --create \$(cat .ruby-version)@\$(cat .ruby-gemset) \ngem install bundler --no-ri --no-rdoc" > ~/ruby_setup.sh
 RUN chmod +x ~/ruby_setup.sh
 
 RUN echo "source /etc/profile.d/rvm.sh" >> ~/.bashrc
