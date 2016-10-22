@@ -9,7 +9,7 @@ RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A170311380
 RUN /bin/bash -l -c 'source /etc/profile.d/rvm.sh'
 
 # make bundler a default gem
-RUN echo bundler > /usr/local/rvm/gemsets/global.gems
+RUN echo bundler >> /usr/local/rvm/gemsets/global.gems
 
 # setup default ruby version
 ENV RUBY_VER 2.3.1
