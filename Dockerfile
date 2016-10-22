@@ -1,11 +1,11 @@
 FROM ubuntu:latest
 
-RUN apt-get update -y
-RUN apt-get upgrade -y
+RUN apt-get update -qqy && \
+    apt-get upgrade -qqy 
 RUN apt-get install -y git sudo curl nodejs libpq-dev libmysqlclient-dev qt5-default libqt5webkit5-dev
 
-RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-RUN \curl -sSL https://get.rvm.io | bash -s stable
+RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
+    \curl -sSL https://get.rvm.io | bash -s stable
 RUN /bin/bash -l -c 'source /etc/profile.d/rvm.sh'
 
 # setup default ruby version
