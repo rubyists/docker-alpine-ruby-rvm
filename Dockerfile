@@ -22,8 +22,8 @@ RUN echo bundler >> /usr/local/rvm/gemsets/global.gems
 RUN echo "rvm_install_on_use_flag=1\nrvm_gemset_create_on_use_flag=1\nrvm_quiet_curl_flag=1" > ~/.rvmrc
 
 # preinstall some ruby versions
-# ENV PREINSTALLED_RUBIES "2.3.1 2.3.0 2.2.2 2.2.1 2.1.5 2.1.4 2.1.2 2.1.1 2.0.0 1.9.3"
-# RUN /bin/bash -l -c 'for version in $PREINSTALLED_RUBIES; do echo "Now installing Ruby $version"; rvm install $version; done'
+ENV PREINSTALLED_RUBIES "2.3.1 2.3.0 2.2.2 2.2.1 2.1.5 2.1.4 2.1.2 2.1.1 2.0.0 1.9.3"
+RUN /bin/bash -l -c 'for version in $PREINSTALLED_RUBIES; do echo "Now installing Ruby $version"; rvm install $version; done'
 
 # source rvm in every shell
 RUN sed -i '3i . /etc/profile.d/rvm.sh\n' ~/.profile
