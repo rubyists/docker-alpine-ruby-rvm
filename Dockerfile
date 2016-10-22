@@ -21,11 +21,11 @@ RUN /bin/bash -l -c 'rvm use $RUBY_VER --default'
 # RUN /bin/bash -l -c 'for version in $PREINSTALLED_RUBIES; do echo "Now installing Ruby $version"; rvm install $version; done'
  
 # create ruby_setup script
-RUN echo "#!/bin/bash \nsource /etc/profile.d/rvm.sh \nrvm install \$(cat .ruby-version) \nrvm use --create \$(cat .ruby-version)@\$(cat .ruby-gemset) \ngem install bundler --no-ri --no-rdoc" > ~/ruby_setup.sh
+RUN echo "#!/bin/bash \nsource /etc/profile.d/rvm.sh \nrvm install \$(cat .ruby-version) --quiet-curl \nrvm use --create \$(cat .ruby-version)@\$(cat .ruby-gemset)" > ~/ruby_setup.sh
 RUN chmod +x ~/ruby_setup.sh
 
 RUN sed -i '5i source /etc/profile.d/rvm.sh\n' ~/.bashrc
-RUN sed -i '2i . /etc/profile.d/rvm.sh\n' ~/.profile
+RUN sed -i '3i . /etc/profile.d/rvm.sh\n' ~/.profile
 #ENV PATH "$PATH:/usr/local/rvm/bin"
 
 #ENTRYPOINT /bin/bash -l
