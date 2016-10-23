@@ -1,14 +1,37 @@
 FROM ubuntu:latest
 
-# update system
-RUN apt-get update -qqy && \
-    apt-get upgrade -qqy
+# packages required for building rubies with rvm
+RUN apt-get update -qqy && apt-get install -qqy \
+	bzip2 \
+	gawk \
+	g++ \
+	gcc \
+	make \
+	libreadline6-dev \
+	libyaml-dev \
+	libsqlite3-dev \
+	sqlite3 \
+	autoconf \
+	libgmp-dev \
+	libgdbm-dev \
+	libncurses5-dev \
+	automake \
+	libtool \
+	bison \
+	pkg-config \
+	libffi-dev \
+	&& rm -rf /var/lib/apt/lists
 
-# packages required for building rubies 
-RUN apt-get install -qqy bzip2 gawk g++ gcc make libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
-
-# additional packages
-RUN apt-get install -qqy git curl nodejs libpq-dev libmysqlclient-dev qt5-default libqt5webkit5-dev 
+# additional packages for development
+RUN apt-get update -qqy && apt-get install -qqy \
+	git \
+	curl \
+	nodejs \
+	libpq-dev \
+	libmysqlclient-dev \
+	qt5-default \
+	libqt5webkit5-dev \
+	&& rm -rf /var/lib/apt/lists
 
 # install rvm
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
