@@ -1,14 +1,37 @@
 FROM ubuntu:latest
 
-# update system
-RUN apt-get update -qqy && \
-    apt-get upgrade -qqy
+# packages required for building rubies with rvm
+RUN apt-get update -qqy && apt-get install -qqy \
+	bzip2 \
+	gawk \
+	g++ \
+	gcc \
+	make \
+	libreadline6-dev \
+	libyaml-dev \
+	libsqlite3-dev \
+	sqlite3 \
+	autoconf \
+	libgmp-dev \
+	libgdbm-dev \
+	libncurses5-dev \
+	automake \
+	libtool \
+	bison \
+	pkg-config \
+	libffi-dev \
+	&& rm -rf /var/lib/apt/lists
 
-# packages required for building rubies 
-RUN apt-get install -qqy bzip2 gawk g++ gcc make libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
-
-# additional packages
-RUN apt-get install -qqy git sudo curl nodejs libpq-dev libmysqlclient-dev qt5-default libqt5webkit5-dev 
+# additional packages for development
+RUN apt-get update -qqy && apt-get install -qqy \
+	git \
+	curl \
+	nodejs \
+	libpq-dev \
+	libmysqlclient-dev \
+	qt5-default \
+	libqt5webkit5-dev \
+	&& rm -rf /var/lib/apt/lists
 
 # install rvm
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
@@ -23,7 +46,7 @@ RUN echo "rvm_install_on_use_flag=1\nrvm_gemset_create_on_use_flag=1\nrvm_quiet_
 
 # preinstall some ruby versions
 # ENV PREINSTALLED_RUBIES "2.3.1 2.3.0 2.2.2 2.2.1 2.1.5 2.1.4 2.1.2 2.1.1 2.0.0 1.9.3"
-# RUN /bin/bash -l -c 'for version in $PREINSTALLED_RUBIES; do echo "Now installing Ruby $version"; rvm install $version; done'
+# RUN /bin/bash -l -c 'for version in $PREINSTALLED_RUBIES; do echo "Now installing Ruby $version"; rvm install $version; rvm cleanup sources; done'
 
 # source rvm in every shell
 RUN sed -i '3i . /etc/profile.d/rvm.sh\n' ~/.profile
