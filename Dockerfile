@@ -33,6 +33,9 @@ RUN apt-get update -qqy && apt-get install -qqy \
 	libqt5webkit5-dev \
 	&& rm -rf /var/lib/apt/lists
 
+# manually install phantomjs
+RUN curl -sL -o - https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 | tar -xjf - -O phantomjs-2.1.1-linux-x86_64/bin/phantomjs > /usr/bin/phantomjs && chmod +x /usr/bin/phantomjs
+
 # install rvm
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
     \curl -sSL https://get.rvm.io | bash -s stable
