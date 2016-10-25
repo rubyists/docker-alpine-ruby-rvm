@@ -31,6 +31,8 @@ RUN apt-get update -qqy && apt-get install -qqy \
 	libmysqlclient-dev \
 	qt5-default \
 	libqt5webkit5-dev \
+	imagemagick \
+	libmagickwand-dev \
 	&& rm -rf /var/lib/apt/lists
 
 # manually install phantomjs
