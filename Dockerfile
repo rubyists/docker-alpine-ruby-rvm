@@ -57,5 +57,9 @@ RUN /bin/bash -l -c 'for version in $PREINSTALLED_RUBIES; do echo "Now installin
 # source rvm in every shell
 RUN sed -i '3i . /etc/profile.d/rvm.sh\n' ~/.profile
 
+# disable strict host key checking (used for deploy)
+RUN mkdir ~/.ssh
+RUN echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
 # interactive shell by default so rvm is sourced automatically
 ENTRYPOINT /bin/bash -l
