@@ -61,5 +61,5 @@ RUN sed -i '3i . /etc/profile.d/rvm.sh\n' ~/.profile
 RUN mkdir ~/.ssh
 RUN echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
-# interactive shell by default so rvm is sourced automatically
+# login shell by default so rvm is sourced automatically and 'rvm use' can be used
 ENTRYPOINT /bin/bash -l
