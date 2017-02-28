@@ -59,7 +59,7 @@ RUN sed -i '3i . /etc/profile.d/rvm.sh\n' ~/.profile
 
 # disable strict host key checking (used for deploy)
 RUN mkdir ~/.ssh
-RUN echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+RUN echo "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
 # login shell by default so rvm is sourced automatically and 'rvm use' can be used
 ENTRYPOINT /bin/bash -l
