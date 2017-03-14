@@ -1,43 +1,11 @@
-FROM ubuntu:latest
+FROM alpine:latest
 
-# packages required for building rubies with rvm
-RUN apt-get update -qqy && apt-get install -qqy \
-	bzip2 \
-	gawk \
-	g++ \
-	gcc \
-	make \
-	libreadline6-dev \
-	libyaml-dev \
-	libsqlite3-dev \
-	sqlite3 \
-	autoconf \
-	libgmp-dev \
-	libgdbm-dev \
-	libncurses5-dev \
-	automake \
-	libtool \
-	bison \
-	pkg-config \
-	libffi-dev \
-	&& rm -rf /var/lib/apt/lists
-
-# additional packages for development
-RUN apt-get update -qqy && apt-get install -qqy \
-	git \
-	curl \
-	nodejs \
-	libpq-dev \
-	libmysqlclient-dev \
-	qt5-default \
-	libqt5webkit5-dev \
-	imagemagick \
-	libmagickwand-dev \
-	xvfb \
-	&& rm -rf /var/lib/apt/lists
-
-# manually install phantomjs
-RUN curl -sL -o - https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 | tar -xjf - -O phantomjs-2.1.1-linux-x86_64/bin/phantomjs > /usr/bin/phantomjs && chmod +x /usr/bin/phantomjs
+# update package lists
+RUN apk update
+# packages to build rubies with RVM in alpine
+RUN apk add alpine-sdk libtool autoconf automake bison readline-dev \
+  zlib-dev yaml-dev gdbm-dev ncurses-dev linux-headers openssl-dev \
+  libffi-dev procps libxml2-dev libxslt-dev gnupg
 
 # install rvm
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
@@ -55,11 +23,11 @@ ENV PREINSTALLED_RUBIES "2.4.0 2.3.2 2.3.1 2.3.0 2.2.2 2.2.1 2.1.5 2.1.4 2.1.2 2
 RUN /bin/bash -l -c 'for version in $PREINSTALLED_RUBIES; do echo "Now installing Ruby $version"; rvm install $version; rvm cleanup all; done'
 
 # source rvm in every shell
-RUN sed -i '3i . /etc/profile.d/rvm.sh\n' ~/.profile
+RUN echo '. /etc/profile.d/rvm.sh\n' >~/.profile
 
 # disable strict host key checking (used for deploy)
 RUN mkdir ~/.ssh
 RUN echo "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
 # login shell by default so rvm is sourced automatically and 'rvm use' can be used
-ENTRYPOINT /bin/bash -l
+ENTRYPOINT /bin/sh -l
